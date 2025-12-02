@@ -1,0 +1,30 @@
+:root {
+    --senai-red: #E30613;
+    /* Vermelho Institucional */
+}
+
+.bg-senai {
+    background-color: var(--senai-red);
+}
+
+.btn-senai {
+    background-color: var(--senai-red);
+    color: white;
+    border: none;
+}
+
+.btn-senai:hover {
+    background-color: #b30000;
+    color: white;
+}
+
+/* Ajuste para o rodapé ficar sempre embaixo */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}

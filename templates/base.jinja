@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/normalize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/style.css') }}">
+    <title>Cadastro de Patrimônio</title>
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-senai shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold fst-italic" href="/">
+                <i class="bi bi-gear-wide-connected me-2"></i>SENAI
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link text-white" href="/">Início</a></li>
+                    <li class="nav-item"><a class="nav-link text-white-50" href="/patrimonio">Patrimônios</a></li>
+                    <li class="nav-item"><a class="nav-link text-white-50" href="/setor">Setores</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+        <!-- ########################################## -->
+         
+        {% block page %}{% endblock %}
+
+        <!-- ########################################## -->
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <small>&copy; 2025 - Sistema de Controle de Patrimônio</small>
+    </footer>
+</body>
+<script src="{{ url_for('static', filename='/bootstrap/js/bootstrap.bundle.js') }}"></script>
+
+</html>
