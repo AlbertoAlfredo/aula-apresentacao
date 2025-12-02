@@ -28,3 +28,14 @@ body {
 main {
     flex: 1;
 }
+
+.hover-effect {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-effect:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+    border: 1px solid #E30613 !important;
+    /* Borda vermelha ao passar o mouse */
+}
