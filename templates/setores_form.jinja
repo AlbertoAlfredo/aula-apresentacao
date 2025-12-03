@@ -1,0 +1,23 @@
+{% extends "base.jinja" %}
+
+{% block page %}
+
+<div class="container">
+    <form method="POST" action="{{ url_for('setores') }}">
+    {% if id %}
+        <input type="hidden" name="_method" value="PUT">
+    {% endif %}
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="nome-setor">Nome:</span>
+            <input type="text" class="form-control" placeholder="Nome" name="nome" aria-label="Nome Setor"
+                aria-describedby="nome-setor" 
+                {% if nome %} value="{{nome}}" {% endif %}
+                >
+        </div>
+        <div class="input-group mb-3">
+            <button type="submit" class="btn btn-success">Adicionar</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
