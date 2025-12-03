@@ -1,4 +1,5 @@
 {% extends "base.jinja" %}
+{% import 'macros_icons.jinja' as icon %}
 
 {% block page %}
 
@@ -9,6 +10,7 @@
         <th scope="col">Nome</th>
         <th scope="col">N° Patrimônio</th>
         <th scope="col">Setor</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
         
@@ -18,6 +20,23 @@
             <td>{{ patrimonio[1] }}</td>
             <td>{{ patrimonio[2] }}</td>
             <td>{{ setores[patrimonio[3]][1] }}</td>
+            <td>
+                <a href="{{ url_for('form_patrimonios', id=patrimonio[0]) }}"><button class="btn btn-sm btn-danger">{{ icon.icon_pen(size=18) }}</button></a>
+                <form action="{{ url_for('patrimonios') }}" method="POST" style="display:inline;">
+        
+                    {# 1. Campo Oculto para Sobrescrever o Método #}
+                    <input type="hidden" name="_method" value="DELETE">
+                    
+                    {# 2. Campo Oculto para Passar o ID (Chave Primária) #}
+                    <input type="hidden" name="id" value="{{ patrimonio[0] }}">
+                    
+                    {# 3. O Botão de Submissão #}
+                    <button type="submit" class="btn btn-sm btn-danger" 
+                            onclick="return confirm('Tem certeza que deseja deletar {{ patrimonio[1] }}?');">
+                        {{ icon.icon_trash(size=18) }}
+                    </button>
+                </form>
+            </td>
         </tr>
             {% else %}
             <p>Nenhum patrimônio cadastrado ainda.</p>

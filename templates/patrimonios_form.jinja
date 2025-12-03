@@ -3,22 +3,33 @@
 {% block page %}
 
 <form action="{{ url_for('patrimonios') }}" method="POST">
-    {% if id %}
+    {% if patrimonio %}
     <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="id" value="{{patrimonio[0]}}">
     {% endif %}
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">Nome:</span>
         <input type="text" class="form-control" placeholder="Nome" name="nome" aria-label="Username"
+            {% if patrimonio %}
+                value = "{{ patrimonio[1] }}"
+            {% endif %}
             aria-describedby="basic-addon1">
     </div>
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">Nº Patrimônio:</span>
         <input type="number" class="form-control" placeholder="Nº Patrimônio" name="patrimonio" aria-label="Username"
+            {% if patrimonio %}
+                value = "{{ patrimonio[2] }}"
+            {% endif %}
             aria-describedby="basic-addon1">
     </div>
     <div class="input-group mb-3">
         <select class="form-select" aria-label="Setores" name="id_setor">
-            <option selected>Setor</option>
+            {% if patrimonio %}
+                <option selected value="{{ setores[patrimonio[0]][0] }}">{{ setores[patrimonio[0]][1] }}</option>
+            {% else %}
+                <option selected>Setor</option>
+            {% endif %}
             {% for setor in setores %}
             <option value="{{ setor[0] }}">{{ setor[1] }}</option>
             {% endfor %}

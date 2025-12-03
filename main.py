@@ -42,9 +42,9 @@ def patrimonios():
     elif request.method == 'PUT':
         id = int(request.form['id'])
         nome = request.form['nome']
-        n_patrimonio = request.form['patrimonio']
-        id_setor = request.form['id_setor']
-        patrimonio.update(nome, n_patrimonio, id_setor)
+        n_patrimonio = int(request.form['patrimonio'])
+        id_setor = int(request.form['id_setor'])
+        patrimonio.update(id, nome, n_patrimonio, id_setor)
         return redirect(url_for("patrimonios"))
     elif request.method == "DELETE":
         id = int(request.form['id'])
@@ -59,9 +59,14 @@ def patrimonios():
 
 @app.route("/patrimonio/form")
 def form_patrimonios():
+    id = int(request.args.get("id"))
+    if id:
+        patrimonio = bd.Patrimonio.read(id)
+    else:
+        patrimonio = False
     setor = bd.Setor()
     setores = setor.read()
-    return render_template("patrimonios_form.jinja", setores=setores)
+    return render_template("patrimonios_form.jinja", setores=setores, patrimonio=patrimonio[0])
 
 @app.route("/setor", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def setores():
