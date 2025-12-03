@@ -75,13 +75,21 @@ class Setor():
         return
     @staticmethod
     def delete(id:int):
-        cursor.execute(
-            f"""
-            DELETE FROM setores
-            WHERE id = {id} 
-            """
-        )
-        return
+        try:
+            cursor.execute(
+                f"""
+                DELETE FROM setores
+                WHERE id = {id} 
+                """
+            )
+            conn.commit()
+            return True # Sucesso na exclusão
+            
+        except Exception as e:
+            # Trata qualquer erro inesperado (ex: ID não existe)
+            conn.rollback()
+            print(f"Erro inesperado ao deletar setor: {e}")
+            return False
 
 
 

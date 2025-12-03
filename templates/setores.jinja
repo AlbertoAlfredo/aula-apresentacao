@@ -1,4 +1,5 @@
 {% extends "base.jinja" %}
+{% import 'macros_icons.jinja' as icon %}
 
 {% block page %}
 <a href="{{url_for('form_setores')}}"><button type="button" class="btn btn-danger">Adicionar</button></a>
@@ -13,6 +14,23 @@
         <tr>
             <td>{{ setor[0] }}</td>
             <td>{{ setor[1] }}</td>
+            <td>
+                <a href="{{ url_for('form_setores', id=setor[0]) }}"><button class="btn btn-sm btn-danger">{{ icon.icon_pen(size=18) }}</button></a>
+                <form action="{{ url_for('setores') }}" method="POST" style="display:inline;">
+        
+                    {# 1. Campo Oculto para Sobrescrever o Método #}
+                    <input type="hidden" name="_method" value="DELETE">
+                    
+                    {# 2. Campo Oculto para Passar o ID (Chave Primária) #}
+                    <input type="hidden" name="id" value="{{ setor[0] }}">
+                    
+                    {# 3. O Botão de Submissão #}
+                    <button type="submit" class="btn btn-sm btn-danger" 
+                            onclick="return confirm('Tem certeza que deseja deletar {{ setor[1] }}?');">
+                        {{ icon.icon_trash(size=18) }}
+                    </button>
+                </form>
+            </td>
         </tr>
             {% else %}
             <p>Nenhum setor cadastrado ainda.</p>

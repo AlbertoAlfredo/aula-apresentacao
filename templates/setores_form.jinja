@@ -4,18 +4,19 @@
 
 <div class="container">
     <form method="POST" action="{{ url_for('setores') }}">
-    {% if id %}
+    {% if setores %}
         <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="id" value="{{ setores[0] }}">
     {% endif %}
         <div class="input-group mb-3">
             <span class="input-group-text" id="nome-setor">Nome:</span>
             <input type="text" class="form-control" placeholder="Nome" name="nome" aria-label="Nome Setor"
                 aria-describedby="nome-setor" 
-                {% if nome %} value="{{nome}}" {% endif %}
+                {% if setores %} value="{{setores[1]}}" {% endif %}
                 >
         </div>
         <div class="input-group mb-3">
-            <button type="submit" class="btn btn-success">Adicionar</button>
+            <button type="submit" class="btn btn-success">{% if setores %} Atualizar {% else %} Adicionar {% endif %}</button>
         </div>
     </form>
 </div>
