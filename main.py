@@ -59,14 +59,15 @@ def patrimonios():
 
 @app.route("/patrimonio/form")
 def form_patrimonios():
-    id = int(request.args.get("id"))
+    id = request.args.get("id")
     if id:
         patrimonio = bd.Patrimonio.read(id)
+        patrimonio = patrimonio[0]
     else:
         patrimonio = False
     setor = bd.Setor()
     setores = setor.read()
-    return render_template("patrimonios_form.jinja", setores=setores, patrimonio=patrimonio[0])
+    return render_template("patrimonios_form.jinja", setores=setores, patrimonio=patrimonio)
 
 #####################################################################################################
 
@@ -92,12 +93,13 @@ def setores():
 
 @app.route("/setor/form")
 def form_setores():
-    id = int(request.args.get('id'))
+    id = request.args.get('id')
     if id:
         setores = bd.Setor.read(id)
+        setores = setores[0]
     else:
         setores = False
-    return render_template("setores_form.jinja", setores=setores[0])
+    return render_template("setores_form.jinja", setores=setores)
 
 
 
