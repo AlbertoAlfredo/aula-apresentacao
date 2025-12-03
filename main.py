@@ -1,5 +1,6 @@
 import os
-from flask import Flask, render_template, redirect
+from utils.middleware import HTTPMethodOverrideMiddleware as middleware
+from flask import Flask, render_template, redirect, request
 
 # Esta linha é para evitar bugs para localizar os caminhos
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -11,6 +12,8 @@ app = Flask(
     template_folder=os.path.join(basedir, "templates"),
 )
 
+# Aqui invocamos o utilitário que habilita os métodos PUT e DELETE no template Jinja
+app.wsgi_app = middleware(app.wsgi_app)
 
 ###########################################################################
 # Seção de rotas
@@ -25,9 +28,14 @@ def home():
     # Chama o arquivo index.jinja para criar a página
     return render_template("index.jinja")
 
-@app.route("/patrimonio")
+@app.route("/patrimonio", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def patrimonios():
-    return render_template("patrimonios.jinja")
+    if request.method == 'GET':
+        return render_template("patrimonios.jinja")
+
+@app.route("/patrimonio/form")
+def form_patrimonios():
+    return render_template("patrimonios_form.jinja")
 
 @app.route("/setor")
 def setores():
