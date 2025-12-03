@@ -2,8 +2,10 @@
 
 {% block page %}
 
-<form action="" method="POST">
+<form action="{{ url_for('patrimonios') }}" method="POST">
+    {% if id %}
     <input type="hidden" name="_method" value="PUT">
+    {% endif %}
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">Nome:</span>
         <input type="text" class="form-control" placeholder="Nome" name="nome" aria-label="Username"
@@ -11,13 +13,19 @@
     </div>
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">Nº Patrimônio:</span>
-        <input type="text" class="form-control" placeholder="Nº Patrimônio" name="patrimonio" aria-label="Username"
+        <input type="number" class="form-control" placeholder="Nº Patrimônio" name="patrimonio" aria-label="Username"
             aria-describedby="basic-addon1">
     </div>
     <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">Setor:</span>
-        <input type="text" class="form-control" placeholder="Setor" name="setor" aria-label="Username"
-            aria-describedby="basic-addon1">
+        <select class="form-select" aria-label="Setores" name="id_setor">
+            <option selected>Setor</option>
+            {% for setor in setores %}
+            <option value="{{ setor[0] }}">{{ setor[1] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="input-group mb-3">
+        <button type="submit" class="btn btn-success">Adicionar</button>
     </div>
 </form>
 

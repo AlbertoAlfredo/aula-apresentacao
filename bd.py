@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect("banco.db")
+conn = sqlite3.connect("banco.db", check_same_thread=False)
 
 cursor = conn.cursor()
 cursor.execute(
@@ -12,7 +12,7 @@ cursor.execute(
     """
     CREATE TABLE IF NOT EXISTS setores(
             id INTEGER PRIMARY KEY,
-            nome TEXT NOT NULL UNIQUE 
+            nome TEXT NOT NULL 
         )
     """
 )
@@ -33,7 +33,7 @@ cursor.execute(
     )
 
 class Setor():
-    
+    @staticmethod
     def create(nome:str):
         cursor.execute(
         f"""
@@ -44,7 +44,7 @@ class Setor():
         
         conn.commit()
         return
-
+    @staticmethod
     def read(id = False):
         if id:
             cursor.execute(
@@ -63,7 +63,7 @@ class Setor():
             rows = cursor.fetchall()
             return rows
         
-
+    @staticmethod
     def update(id:int, nome:str):
         cursor.execute(
             f"""
@@ -73,7 +73,7 @@ class Setor():
             """
         )
         return
-
+    @staticmethod
     def delete(id:int):
         cursor.execute(
             f"""
@@ -88,6 +88,7 @@ class Setor():
 
 
 class Patrimonio():
+    @staticmethod
     def create(nome:str, patrimonio:int, id_setor:int):
         cursor.execute(
         f"""
@@ -98,7 +99,8 @@ class Patrimonio():
         
         conn.commit()
         return
-
+    
+    @staticmethod
     def read(id = False):
         if id:
             cursor.execute(
@@ -117,7 +119,7 @@ class Patrimonio():
             rows = cursor.fetchall()
             return rows
         
-
+    @staticmethod
     def update(id:int, nome:str, patrimonio:int, id_setor:int):
         cursor.execute(
             f"""
@@ -127,7 +129,7 @@ class Patrimonio():
             """
         )
         return
-
+    @staticmethod
     def delete(id:int):
         cursor.execute(
             f"""

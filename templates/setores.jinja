@@ -1,7 +1,23 @@
 {% extends "base.jinja" %}
 
 {% block page %}
-
-
-
+<a href="{{url_for('form_setores')}}"><button type="button" class="btn btn-danger">Adicionar</button></a>
+<table class="table">
+    <thead>
+        <th scope="col">id</th>
+        <th scope="col">Nome</th>
+    </thead>
+    <tbody>
+        
+            {% for setor in setores %}
+        <tr>
+            <td>{{ setor[0] }}</td>
+            <td>{{ setor[1] }}</td>
+        </tr>
+            {% else %}
+            <p>Nenhum setor cadastrado ainda.</p>
+            {% endfor %}
+        
+    </tbody>
+</table>
 {% endblock %}

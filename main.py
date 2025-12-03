@@ -1,7 +1,7 @@
 import os
 from utils.middleware import HTTPMethodOverrideMiddleware as middleware
 from flask import Flask, render_template, redirect, request, url_for
-from bd import Setor, Patrimonio
+import bd
 
 # Esta linha é para evitar bugs para localizar os caminhos
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -16,10 +16,6 @@ app = Flask(
 # Aqui invocamos o utilitário que habilita os métodos PUT e DELETE no template Jinja
 app.wsgi_app = middleware(app.wsgi_app)
 
-
-
-setor = Setor()
-patrimonio = Patrimonio()
 
 ###########################################################################
 # Seção de rotas
@@ -36,28 +32,40 @@ def home():
 
 @app.route("/patrimonio", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def patrimonios():
+    patrimonio = bd.Patrimonio()
     if request.method == 'POST':
         nome = request.form['nome']
-        Setor.create(nome)
-        return render_template("patrimonios.jinja")
+        n_patrimonio = int(request.form['patrimonio'])
+        id_setor = int(request.form['id_setor'])
+        patrimonio.create(nome, n_patrimonio, id_setor)
+        return redirect(url_for("patrimonios"))
     elif request.method == 'PUT':
         id = int(request.form['id'])
         nome = request.form['nome']
-        Setor.update(id, nome)
-        return render_template("patrimonios.jinja")
+        n_patrimonio = request.form['patrimonio']
+        id_setor = request.form['id_setor']
+        patrimonio.update(nome, n_patrimonio, id_setor)
+        return redirect(url_for("patrimonios"))
     elif request.method == "DELETE":
         id = int(request.form['id'])
-        Setor.delete(id)
-    elif request.method == 'GET':
-        return render_template("patrimonios.jinja")
+        patrimonio.delete(id)
+        return redirect(url_for("patrimonios"))
+    else:
+        setor = bd.Setor()
+        patrimonios = patrimonio.read()
+        setores = setor.read()
+        return render_template("patrimonios.jinja", patrimonios=patrimonios, setores=setores)
     
 
 @app.route("/patrimonio/form")
 def form_patrimonios():
-    return render_template("patrimonios_form.jinja")
+    setor = bd.Setor()
+    setores = setor.read()
+    return render_template("patrimonios_form.jinja", setores=setores)
 
 @app.route("/setor", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def setores():
+    setor = bd.Setor()
     if request.method == 'POST':
         nome = request.form['nome']
         setor.create(nome)
@@ -72,7 +80,8 @@ def setores():
         setor.delete(id)
         return redirect(url_for("setores"))
     else:
-        return render_template("setores.jinja")
+        setores = setor.read()
+        return render_template("setores.jinja", setores=setores)
 
 @app.route("/setor/form")
 def form_setores():
